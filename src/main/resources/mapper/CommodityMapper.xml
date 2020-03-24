@@ -19,14 +19,14 @@
             commodity.id = #{commodityId}
     </select>
 
-    <select id="search" parameterType="Long" resultType="com.tongji.market.model.vo.CommodityBriefVo">
+    <select id="search" parameterType="String" resultType="com.tongji.market.model.vo.CommodityBriefVo">
         select
             commodity.id,
             commodity.name,
-            commodit.description
+            commodity.description
         from commodity
         where
-            commodity.name  CONCAT('%', #{words}, '%')
-            or commodity.description  CONCAT('%', #{words}, '%')
+            commodity.name ilike CONCAT('%', #{words}, '%')
+            or commodity.description ilike CONCAT('%', #{words}, '%')
     </select>
 </mapper>

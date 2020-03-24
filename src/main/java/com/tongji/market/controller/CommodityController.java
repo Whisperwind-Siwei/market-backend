@@ -98,16 +98,11 @@ public class CommodityController {
                 List<Double> iVector = new ArrayList<>();
                 List<Double> jVector = new ArrayList<>();
                 for (int z = 0; z < customers.size(); z++) {
-                    if (fullMatrix[i][z] != 0 && fullMatrix[j][z] != 0) {
-                        iVector.add(fullMatrix[i][z]);
-                        jVector.add(fullMatrix[j][z]);
-                    }
-                }
-                if (iVector.isEmpty()) {
-                    continue;
+                    iVector.add(fullMatrix[i][z]);
+                    jVector.add(fullMatrix[j][z]);
                 }
                 relation[i][j] = PearsonCorrelation.getPearsonCorrelationScore(iVector, jVector);
-                relation[j][i] = PearsonCorrelation.getPearsonCorrelationScore(iVector, jVector);
+                relation[j][i] = relation[i][j];
             }
         }
         TreeMap<Long, Double> preList = new TreeMap<>((o1, o2) -> (int) (o1 - o2));
@@ -121,17 +116,19 @@ public class CommodityController {
                 numerator += relation[i][customerBoughtId.get(j).intValue()] * customerBoughtNumber.get(j);
                 denominator += relation[i][customerBoughtId.get(j).intValue()];
             }
-            preList.put((long) i, numerator / denominator);
+            if (denominator != 0) {
+                preList.put((long) i, numerator / denominator);
+            }
         }
         List<Long> recommendedList = new ArrayList<>();
         for (Long aLong : preList.keySet()) {
-            if (recommendedList.size() == 3) {
+            if (recommendedList.size() == 2) {
                 break;
             }
             recommendedList.add(aLong);
         }
         for (Long aLong : boughtCount.keySet()) {
-            if (recommendedList.size() == 3) {
+            if (recommendedList.size() == 2) {
                 break;
             }
             if (!recommendedList.contains(aLong) && !customerBoughtId.contains(aLong)) {

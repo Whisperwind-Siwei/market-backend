@@ -34,6 +34,9 @@ public class PearsonCorrelation {
         // 计算皮尔逊系数的分母
         denominator = generateDenominator(xData, xMeans, yData, yMeans);
         // 计算皮尔逊系数
+        if (denominator == 0) {
+            return 0;
+        }
         result = numerator / denominator;
         return result;
     }
