@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongji.market.mapper.CommodityMapper">
+    <select id="getOne" parameterType="Long" resultType="com.tongji.market.model.vo.CommodityVo">
+        select
+            commodity.id,
+            commodity.code,
+            commodity.name,
+            positions.name as position_name,
+            commodity.price,
+            commodity.inventory,
+            unit.name as unit_name,
+            commodity.description,
+            commodity.type_id
+        from commodity
+            left join positions on positions.id = commodity.position_id
+            left join unit on unit.id = commodity.unit_id
+        where
+            commodity.id = #{commodityId}
+    </select>
+
+    <select id="search" parameterType="Long" resultType="com.tongji.market.model.vo.CommodityBriefVo">
+        select
+            commodity.id,
+            commodity.name,
+            commodit.description
+        from commodity
+        where
+            commodity.name  CONCAT('%', #{words}, '%')
+            or commodity.description  CONCAT('%', #{words}, '%')
+    </select>
+</mapper>

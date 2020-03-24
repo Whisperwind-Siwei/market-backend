@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Position implements Serializable {
+public class Positions implements Serializable {
     @ApiModelProperty(hidden = true)
     private Long id;
 
