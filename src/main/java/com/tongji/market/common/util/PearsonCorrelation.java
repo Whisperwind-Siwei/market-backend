@@ -22,18 +22,14 @@ public class PearsonCorrelation {
             throw new RuntimeException("数据不正确！");
         double xMeans;
         double yMeans;
-        double numerator = 0;// 求解皮尔逊的分子
-        double denominator = 0;// 求解皮尔逊系数的分母
+        double numerator = 0;
+        double denominator = 0;
 
         double result = 0;
-        // 拿到两个数据的平均值
         xMeans = getMeans(xData);
         yMeans = getMeans(yData);
-        // 计算皮尔逊系数的分子
         numerator = generateNumerator(xData, xMeans, yData, yMeans);
-        // 计算皮尔逊系数的分母
         denominator = generateDenominator(xData, xMeans, yData, yMeans);
-        // 计算皮尔逊系数
         if (denominator == 0) {
             return 0;
         }
@@ -41,15 +37,6 @@ public class PearsonCorrelation {
         return result;
     }
 
-    /**
-     * 计算分子
-     *
-     * @param xData
-     * @param xMeans
-     * @param yData
-     * @param yMeans
-     * @return
-     */
     private static double generateNumerator(double[] xData, double xMeans, double[] yData, double yMeans) {
         double numerator = 0.0;
         for (int i = 0; i < xData.length; i++) {
@@ -58,14 +45,6 @@ public class PearsonCorrelation {
         return numerator;
     }
 
-    /**
-     * 生成分母
-     *
-     * @param yMeans
-     * @param yData
-     * @param xMeans
-     * @param xData
-     */
     private static double generateDenominator(double[] xData, double xMeans, double[] yData, double yMeans) {
         double xSum = 0.0;
         for (int i = 0; i < xData.length; i++) {
@@ -78,12 +57,6 @@ public class PearsonCorrelation {
         return Math.sqrt(xSum) * Math.sqrt(ySum);
     }
 
-    /**
-     * 根据给定的数据集进行平均值计算
-     *
-     * @param datas
-     * @return 给定数据集的平均值
-     */
     private static double getMeans(double[] datas) {
         double sum = 0.0;
         for (int i = 0; i < datas.length; i++) {

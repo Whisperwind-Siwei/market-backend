@@ -113,8 +113,10 @@ public class CommodityController {
             double numerator = 0.0;
             double denominator = 0.0;
             for (int j = 0; j < customerBoughtId.size(); j++) {
-                numerator += relation[i][customerBoughtId.get(j).intValue()] * customerBoughtNumber.get(j);
-                denominator += relation[i][customerBoughtId.get(j).intValue()];
+                if (relation[i][customerBoughtId.get(j).intValue()] > 0) {
+                    numerator += relation[i][customerBoughtId.get(j).intValue()] * customerBoughtNumber.get(j);
+                    denominator += relation[i][customerBoughtId.get(j).intValue()];
+                }
             }
             if (denominator != 0) {
                 preList.put((long) i, numerator / denominator);
@@ -122,13 +124,13 @@ public class CommodityController {
         }
         List<Long> recommendedList = new ArrayList<>();
         for (Long aLong : preList.keySet()) {
-            if (recommendedList.size() == 2) {
+            if (recommendedList.size() == 1) {
                 break;
             }
             recommendedList.add(aLong);
         }
         for (Long aLong : boughtCount.keySet()) {
-            if (recommendedList.size() == 2) {
+            if (recommendedList.size() == 1) {
                 break;
             }
             if (!recommendedList.contains(aLong) && !customerBoughtId.contains(aLong)) {
